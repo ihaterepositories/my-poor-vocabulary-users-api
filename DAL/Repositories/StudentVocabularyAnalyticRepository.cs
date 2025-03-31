@@ -6,7 +6,7 @@ namespace DAL.Repositories;
 
 public class StudentVocabularyAnalyticRepository : GenericRepository<StudentVocabularyAnalytic>, IStudentVocabularyAnalyticRepository
 {
-    protected StudentVocabularyAnalyticRepository(DatabaseContext databaseContext) : base(databaseContext)
+    public StudentVocabularyAnalyticRepository(DatabaseContext databaseContext) : base(databaseContext)
     {
     }
 }

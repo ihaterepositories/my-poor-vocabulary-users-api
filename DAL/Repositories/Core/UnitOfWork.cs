@@ -6,8 +6,7 @@ namespace DAL.Repositories.Core;
 public class UnitOfWork : IUnitOfWork
 {
     private readonly DatabaseContext _databaseContext;
-
-    public ISchoolGroupRepository SchoolGroupRepository { get; }
+    
     public ISchoolRepository SchoolRepository { get; }
     public IStudentActivityRepository StudentActivityRepository { get; }
     public IStudentGameProgressAnalyticRepository StudentGameProgressAnalyticRepository { get; }
@@ -17,7 +16,6 @@ public class UnitOfWork : IUnitOfWork
     
     public UnitOfWork(
         DatabaseContext databaseContext, 
-        ISchoolGroupRepository schoolGroupRepository, 
         ISchoolRepository schoolRepository, 
         IStudentActivityRepository studentActivityRepository, 
         IStudentGameProgressAnalyticRepository studentGameProgressAnalyticRepository, 
@@ -26,7 +24,6 @@ public class UnitOfWork : IUnitOfWork
         ITeacherRepository teacherRepository)
     {
         _databaseContext = databaseContext;
-        SchoolGroupRepository = schoolGroupRepository;
         SchoolRepository = schoolRepository;
         StudentActivityRepository = studentActivityRepository;
         StudentGameProgressAnalyticRepository = studentGameProgressAnalyticRepository;

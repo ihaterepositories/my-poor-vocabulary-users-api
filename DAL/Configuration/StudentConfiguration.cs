@@ -15,7 +15,6 @@ public class StudentConfiguration : IEntityTypeConfiguration<Student>
         builder.Property(x => x.DateOfBirth).IsRequired();
         builder.Property(x => x.Password).IsRequired().HasMaxLength(50);
         builder.Property(x => x.RegistrationDate).IsRequired();
-        builder.Property(x => x.IsSchoolAttendee).IsRequired();
         
         builder
             .HasOne(x => x.StudentActivity)

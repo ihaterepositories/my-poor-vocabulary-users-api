@@ -4,7 +4,6 @@ namespace DAL.Repositories.Core.Interfaces;
 
 public interface IUnitOfWork
 {
-    ISchoolGroupRepository SchoolGroupRepository { get; }
     ISchoolRepository SchoolRepository { get; }
     IStudentActivityRepository StudentActivityRepository { get; }
     IStudentGameProgressAnalyticRepository StudentGameProgressAnalyticRepository { get; }

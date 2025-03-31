@@ -5,5 +5,5 @@ public class StudentActivity
     public Guid StudentId { get; set; }
     public DateTime LastVisitation { get; set; }
     
-    public Student Student { get; set; } = null!;
+    public Student? Student { get; set; } = null!;
 }

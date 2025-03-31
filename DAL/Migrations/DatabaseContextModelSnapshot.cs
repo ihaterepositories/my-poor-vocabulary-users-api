@@ -33,6 +33,10 @@ namespace DAL.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("KeyForEnrollment")
                         .IsRequired()
                         .HasColumnType("text");
@@ -41,6 +45,11 @@ namespace DAL.Migrations
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
@@ -53,31 +62,6 @@ namespace DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Schools");
-                });
-
-            modelBuilder.Entity("Data.Models.SchoolGroup", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("KeyForEnrollment")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
-
-                    b.Property<Guid>("SchoolId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SchoolId");
-
-                    b.ToTable("SchoolGroups");
                 });
 
             modelBuilder.Entity("Data.Models.Student", b =>
@@ -99,9 +83,6 @@ namespace DAL.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
-                    b.Property<bool>("IsSchoolAttendee")
-                        .HasColumnType("boolean");
-
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -115,9 +96,6 @@ namespace DAL.Migrations
                     b.Property<DateTime>("RegistrationDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid>("SchoolGroupId")
-                        .HasColumnType("uuid");
-
                     b.Property<Guid>("SchoolId")
                         .HasColumnType("uuid");
 
@@ -125,8 +103,6 @@ namespace DAL.Migrations
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("SchoolGroupId");
 
                     b.HasIndex("SchoolId");
 
@@ -169,10 +145,10 @@ namespace DAL.Migrations
                     b.Property<Guid>("StudentId")
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("LastUpdate")
+                    b.Property<DateTime>("LastVocabularyUpdate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("WordsCount")
+                    b.Property<int>("WordsCountInVocabulary")
                         .HasColumnType("integer");
 
                     b.HasKey("StudentId");
@@ -226,25 +202,8 @@ namespace DAL.Migrations
                     b.ToTable("Teachers");
                 });
 
-            modelBuilder.Entity("Data.Models.SchoolGroup", b =>
-                {
-                    b.HasOne("Data.Models.School", "School")
-                        .WithMany("SchoolGroups")
-                        .HasForeignKey("SchoolId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("School");
-                });
-
             modelBuilder.Entity("Data.Models.Student", b =>
                 {
-                    b.HasOne("Data.Models.SchoolGroup", "SchoolGroup")
-                        .WithMany("Students")
-                        .HasForeignKey("SchoolGroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Data.Models.School", "School")
                         .WithMany("Students")
                         .HasForeignKey("SchoolId")
@@ -258,8 +217,6 @@ namespace DAL.Migrations
                         .IsRequired();
 
                     b.Navigation("School");
-
-                    b.Navigation("SchoolGroup");
 
                     b.Navigation("Teacher");
                 });
@@ -310,16 +267,9 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("Data.Models.School", b =>
                 {
-                    b.Navigation("SchoolGroups");
-
                     b.Navigation("Students");
 
                     b.Navigation("Teachers");
-                });
-
-            modelBuilder.Entity("Data.Models.SchoolGroup", b =>
-                {
-                    b.Navigation("Students");
                 });
 
             modelBuilder.Entity("Data.Models.Student", b =>

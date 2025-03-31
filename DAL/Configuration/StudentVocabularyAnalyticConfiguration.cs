@@ -9,7 +9,7 @@ public class StudentVocabularyAnalyticConfiguration : IEntityTypeConfiguration<S
     public void Configure(EntityTypeBuilder<StudentVocabularyAnalytic> builder)
     {
         builder.HasKey(x => x.StudentId);
-        builder.Property(x => x.WordsCount);
-        builder.Property(x => x.LastUpdate);
+        builder.Property(x => x.WordsCountInVocabulary);
+        builder.Property(x => x.LastVocabularyUpdate);
     }
 }

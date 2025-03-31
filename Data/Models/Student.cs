@@ -1,3 +1,6 @@
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
+
 namespace Data.Models;
 
 public class Student
@@ -9,18 +12,19 @@ public class Student
     public DateTime DateOfBirth { get; set; }
     public string Password { get; set; } = null!;
     public DateTime RegistrationDate { get; set; }
-    public bool IsSchoolAttendee { get; set; }
     
     public Guid SchoolId { get; set; }
-    public School School { get; set; } = null!;
-    
-    public Guid SchoolGroupId { get; set; }
-    public SchoolGroup SchoolGroup { get; set; } = null!;
+    public School? School { get; set; }
     
     public Guid TeacherId { get; set; }
-    public Teacher Teacher { get; set; } = null!;
+    public Teacher? Teacher { get; set; }
     
     public StudentActivity StudentActivity { get; set; } = null!;
     public StudentVocabularyAnalytic StudentVocabularyAnalytic { get; set; } = null!;
     public StudentGameProgressAnalytic StudentGameProgressAnalytic { get; set; } = null!;
+    
+    // created to avoid null return
+    [NotMapped] [JsonIgnore]
+    public bool IsEmpty { get; private set; }
+    public static Student GetEmpty() => new() { IsEmpty = true };
 }

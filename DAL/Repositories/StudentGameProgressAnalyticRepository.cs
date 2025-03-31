@@ -6,7 +6,7 @@ namespace DAL.Repositories;
 
 public class StudentGameProgressAnalyticRepository : GenericRepository<StudentGameProgressAnalytic>, IStudentGameProgressAnalyticRepository
 {
-    protected StudentGameProgressAnalyticRepository(DatabaseContext databaseContext) : base(databaseContext)
+    public StudentGameProgressAnalyticRepository(DatabaseContext databaseContext) : base(databaseContext)
     {
     }
 }

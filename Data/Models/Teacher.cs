@@ -1,3 +1,6 @@
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
+
 namespace Data.Models;
 
 public class Teacher
@@ -12,7 +15,12 @@ public class Teacher
     public string KeyForEnrollment { get; set; } = null!;
     
     public Guid SchoolId { get; set; }
-    public School School { get; set; } = null!;
+    public School? School { get; set; } 
     
-    public List<Student> Students { get; set; } = null!;
+    public List<Student> Students { get; set; } = [];
+    
+    // created to avoid null return
+    [NotMapped] [JsonIgnore]
+    public bool IsEmpty { get; private set; }
+    public static Teacher GetEmpty() => new() { IsEmpty = true };
 }

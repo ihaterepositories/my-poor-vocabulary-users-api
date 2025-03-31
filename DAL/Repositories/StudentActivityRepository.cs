@@ -6,7 +6,7 @@ namespace DAL.Repositories;
 
 public class StudentActivityRepository : GenericRepository<StudentActivity>, IStudentActivityRepository
 {
-    protected StudentActivityRepository(DatabaseContext databaseContext) : base(databaseContext)
+    public StudentActivityRepository(DatabaseContext databaseContext) : base(databaseContext)
     {
     }
 }
