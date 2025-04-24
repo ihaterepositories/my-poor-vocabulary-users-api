@@ -14,7 +14,7 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
     public async Task<bool> IsEmailFree(string email)
     {
         if (!await Table.AnyAsync()) return true;
-        return await Table.AnyAsync(s => s.Email != email);
+        return !await Table.AnyAsync(s => s.Email == email);
     }
 
     public async Task<Student> GetWithProgressData(string email)

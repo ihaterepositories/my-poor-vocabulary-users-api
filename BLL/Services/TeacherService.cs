@@ -83,15 +83,22 @@ public class TeacherService : ITeacherService
         try
         {
             if (teacherDto == null)
-                return _rc.CreateBadRequest("Model is null.");
+                return _rc.CreateBadRequest("Some fields are missing or invalid.");
             
             // email availability check
-            var isEmailAvailable = await Repository.IsEmailFree(teacherDto.Email);
+            var isEmailAvailable = 
+                await Repository.IsEmailFree(teacherDto.Email) && 
+                await _unitOfWork.SchoolRepository.IsEmailFree(teacherDto.Email) &&
+                await _unitOfWork.StudentRepository.IsEmailFree(teacherDto.Email);
+            
             if (isEmailAvailable == false)
                 return _rc.CreateBadRequest("This email already registered.");
             
             // enrollment key availability check
-            var isKeyAvailable = await Repository.IsEnrollmentKeyFree(teacherDto.KeyForEnrollment);
+            var isKeyAvailable = 
+                await Repository.IsEnrollmentKeyFree(teacherDto.KeyForEnrollment) &&
+                await _unitOfWork.SchoolRepository.IsEnrollmentKeyFree(teacherDto.KeyForEnrollment);
+            
             if (isKeyAvailable == false)
                 return _rc.CreateBadRequest("This enrollment key already exists.");
             
@@ -106,10 +113,10 @@ public class TeacherService : ITeacherService
             
             var teacher = _mapper.Map<Teacher>(teacherDto);
             teacher.Id = Guid.NewGuid();
-            teacher.DateOfBirth = DateTime.SpecifyKind(teacherDto.DateOfBirth, DateTimeKind.Utc);
             teacher.RegistrationDate = DateTime.UtcNow;
             teacher.SchoolId = schoolId;
             teacher.School = null;
+            teacher.DateOfBirth = DateTime.SpecifyKind(DateTime.Parse(teacherDto.DateOfBirthUnformatted), DateTimeKind.Utc);
             
             // adding model to database
             await Repository.Create(teacher);

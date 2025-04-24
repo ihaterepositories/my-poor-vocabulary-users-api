@@ -44,12 +44,12 @@ public class TeacherRepository : GenericRepository<Teacher>, ITeacherRepository
     public async Task<bool> IsEnrollmentKeyFree(string enrollmentKey)
     {
         if (!await Table.AnyAsync()) return true;
-        return await Table.AnyAsync(x => x.KeyForEnrollment != enrollmentKey);
+        return !await Table.AnyAsync(x => x.KeyForEnrollment == enrollmentKey);
     }
     
     public async Task<bool> IsEmailFree(string email)
     {
         if (!await Table.AnyAsync()) return true;
-        return await Table.AnyAsync(x => x.Email != email);
+        return !await Table.AnyAsync(s => s.Email == email);
     }
 }

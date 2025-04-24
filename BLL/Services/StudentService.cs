@@ -80,10 +80,14 @@ public class StudentService : IStudentService
         try
         {
             if (studentDto == null)
-                return _rc.CreateBadRequest("Model is null.");
+                return _rc.CreateBadRequest("Some fields are missing or invalid.");
             
             // email availability check
-            var isEmailAvailable = await Repository.IsEmailFree(studentDto.Email);
+            var isEmailAvailable = 
+                await Repository.IsEmailFree(studentDto.Email) && 
+                await _unitOfWork.SchoolRepository.IsEmailFree(studentDto.Email) &&
+                await _unitOfWork.TeacherRepository.IsEmailFree(studentDto.Email);
+            
             if (isEmailAvailable == false)
                 return _rc.CreateBadRequest("This email already registered.");
             
@@ -106,7 +110,7 @@ public class StudentService : IStudentService
             student.TeacherId = teacherId;
             student.Teacher = null;
             student.RegistrationDate = DateTime.UtcNow;
-            student.DateOfBirth = DateTime.SpecifyKind(studentDto.DateOfBirth, DateTimeKind.Utc);
+            student.DateOfBirth = DateTime.SpecifyKind(DateTime.Parse(studentDto.DateOfBirthUnformatted), DateTimeKind.Utc);
             
             // creating tables for student`s progress analytic
             var studentActivity = new StudentActivity { StudentId = student.Id, Student = null };

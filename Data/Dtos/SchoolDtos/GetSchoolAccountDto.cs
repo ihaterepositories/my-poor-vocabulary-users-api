@@ -14,6 +14,6 @@ public class GetSchoolAccountDto
     public DateTime RegistrationDate { get; set; }
     public string KeyForEnrollment { get; set; } = null!;
 
-    public List<GetTeacherCredentialsDto> SchoolTeachersCredentials { get; set; } = [];
-    public List<GetStudentCredentialsDto> SchoolStudentsCredentials { get; set; } = [];
+    public List<GetTeacherCredentialsDto> TeachersCredentials { get; set; } = [];
+    public List<GetStudentCredentialsDto> StudentsCredentials { get; set; } = [];
 }

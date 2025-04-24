@@ -14,10 +14,12 @@ public class CreateTeacherDtoValidator : AbstractValidator<CreateTeacherDto>
         RuleFor(x => x.LastName)
             .NotEmpty().WithMessage("Last name is required.")
             .MaximumLength(50).WithMessage("Last name cannot exceed 50 characters.");
-        
-        RuleFor(x => x.DateOfBirth)
+
+        RuleFor(x => x.DateOfBirthUnformatted)
             .NotEmpty().WithMessage("Date of birth is required.")
-            .LessThan(DateTime.Now).WithMessage("Date of birth must be in the past.");
+            .Must(dateStr =>
+                DateTime.TryParse(dateStr, out _))
+            .WithMessage("Date of birth must be a valid date.");
 
         RuleFor(x => x.Email)
             .NotEmpty().WithMessage("Email is required.")

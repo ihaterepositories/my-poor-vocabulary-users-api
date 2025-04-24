@@ -53,15 +53,22 @@ public class SchoolService : ISchoolService
         try
         {
             if (schoolDto == null)
-                return _rc.CreateBadRequest("Model is null.");
+                return _rc.CreateBadRequest("Some fields are missing or invalid.");
             
             // email availability check
-            var isEmailAvailable = await Repository.IsEmailFree(schoolDto.Email);
+            var isEmailAvailable = 
+                await Repository.IsEmailFree(schoolDto.Email) && 
+                await _unitOfWork.StudentRepository.IsEmailFree(schoolDto.Email) &&
+                await _unitOfWork.TeacherRepository.IsEmailFree(schoolDto.Email);
+            
             if (isEmailAvailable == false)
                 return _rc.CreateBadRequest("This email already registered.");
             
             // enrollment key availability check
-            var isKeyAvailable = await Repository.IsEnrollmentKeyFree(schoolDto.KeyForEnrollment);
+            var isKeyAvailable = 
+                await Repository.IsEnrollmentKeyFree(schoolDto.KeyForEnrollment) &&
+                await _unitOfWork.TeacherRepository.IsEnrollmentKeyFree(schoolDto.KeyForEnrollment);
+            
             if (isKeyAvailable == false)
                 return _rc.CreateBadRequest("This enrollment key already exists.");
             

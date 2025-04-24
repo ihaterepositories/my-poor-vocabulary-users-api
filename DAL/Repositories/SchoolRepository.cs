@@ -31,12 +31,12 @@ public class SchoolRepository : GenericRepository<School>, ISchoolRepository
     public async Task<bool> IsEnrollmentKeyFree(string enrollmentKey)
     {
         if (!await Table.AnyAsync()) return true;
-        return await Table.AnyAsync(s => s.KeyForEnrollment != enrollmentKey);
+        return !await Table.AnyAsync(s => s.KeyForEnrollment == enrollmentKey);
     }
     
     public async Task<bool> IsEmailFree(string email)
     {
         if (!await Table.AnyAsync()) return true;
-        return await Table.AnyAsync(s => s.Email != email);
+        return !await Table.AnyAsync(s => s.Email == email);
     }
 }

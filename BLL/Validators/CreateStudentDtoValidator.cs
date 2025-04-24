@@ -19,10 +19,12 @@ public class CreateStudentDtoValidator : AbstractValidator<CreateStudentDto>
             .NotEmpty().WithMessage("Email is required.")
             .EmailAddress().WithMessage("Invalid email address.")
             .MaximumLength(70).WithMessage("Email cannot be more than 70 characters");
-        
-        RuleFor(x => x.DateOfBirth)
+
+        RuleFor(x => x.DateOfBirthUnformatted)
             .NotEmpty().WithMessage("Date of birth is required.")
-            .LessThan(DateTime.Now).WithMessage("Date of birth must be in the past.");
+            .Must(dateStr =>
+                DateTime.TryParse(dateStr, out _))
+            .WithMessage("Date of birth must be a valid date.");
 
         RuleFor(x => x.Password)
             .NotEmpty().WithMessage("Password is required.")
