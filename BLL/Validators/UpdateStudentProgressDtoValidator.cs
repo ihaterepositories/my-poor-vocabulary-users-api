@@ -12,10 +12,6 @@ public class UpdateStudentProgressDtoValidator : AbstractValidator<UpdateStudent
             .Must(id => Guid.TryParse(id.ToString(), out _))
             .WithMessage("StudentId must be a valid GUID.");
 
-        RuleFor(x => x.LastVisitation)
-            .NotEmpty().WithMessage("LastVisitation is required.")
-            .LessThanOrEqualTo(DateTime.UtcNow).WithMessage("LastVisitation cannot be in the future.");
-
         RuleFor(x => x.GamesCompleted)
             .NotEmpty().WithMessage("GamesCompleted is required.")
             .GreaterThanOrEqualTo(0).WithMessage("GamesCompleted must be 0 or greater.");
@@ -29,7 +25,6 @@ public class UpdateStudentProgressDtoValidator : AbstractValidator<UpdateStudent
             .GreaterThanOrEqualTo(0).WithMessage("WordsCountInVocabulary must be 0 or greater.");
 
         RuleFor(x => x.LastVocabularyUpdate)
-            .NotEmpty().WithMessage("LastVocabularyUpdate is required.")
-            .LessThanOrEqualTo(DateTime.UtcNow).WithMessage("LastVocabularyUpdate cannot be in the future.");
+            .NotEmpty().WithMessage("LastVocabularyUpdate is required.");
     }
 }

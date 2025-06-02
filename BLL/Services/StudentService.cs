@@ -151,7 +151,7 @@ public class StudentService : IStudentService
             var studentGameProgressAnalytic = await _unitOfWork.StudentGameProgressAnalyticRepository.GetById(studentProgressDto.StudentId);
             var studentVocabularyAnalytic = await _unitOfWork.StudentVocabularyAnalyticRepository.GetById(studentProgressDto.StudentId);
             
-            studentActivity.LastVisitation = DateTime.SpecifyKind(studentProgressDto.LastVisitation, DateTimeKind.Utc);
+            studentActivity.LastVisitation = DateTime.UtcNow;
             studentGameProgressAnalytic.AverageScorePerGame = studentProgressDto.AverageScorePerGame;
             studentGameProgressAnalytic.GamesCompleted = studentProgressDto.GamesCompleted;
             studentVocabularyAnalytic.WordsCountInVocabulary = studentProgressDto.WordsCountInVocabulary;
